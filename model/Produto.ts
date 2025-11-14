@@ -35,6 +35,9 @@ export abstract class Produto {
     public set estoque(estoque:number){
         this._estoque =estoque;
     }
+    public get statusEstoque():string{
+        return this._estoque>0 ? "Temos":"Não Temos";
+    }
 
     // metodo visualizar que vai ser implementado
     // em todas as classes so ainda nao sei se vou.

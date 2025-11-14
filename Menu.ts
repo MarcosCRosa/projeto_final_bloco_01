@@ -2,7 +2,8 @@
 import readlinesync = require("readline-sync");
 import { Camiseta } from "./model/ProdutoCamiseta";
 export function main(){
-    let opcao:number;
+    let opcao,preco,tipo,estoque:number;
+    let tamanho,nome,cor:string;
     let camiseta1:Camiseta = new Camiseta(1,"Purple X",100,1,"M","Roxo",1);
     while(true){
      console.log("*********************************************");
@@ -24,6 +25,18 @@ export function main(){
         switch(opcao){
         case 1:
             console.log("\n\nAdicionar Camiseta");
+            console.log("Digite o nome da Camiseta");
+            nome = readlinesync.question("");
+            console.log("Digite o preco da Camiseta:");
+            preco = readlinesync.questionFloat("");
+            console.log("Digite o Estoque da Camiseta:");
+            estoque = readlinesync.questionInt("");
+            console.log("Digite o Tamanho da Camiseta:");
+            tamanho = readlinesync.question("");
+            console.log("Digite a cor da Camiseta:");
+            cor = readlinesync.question("");
+            console.log("Digite o tipo da Camiseta:(1)-Gola Polo-||-(2)-Gola V");
+            tipo = readlinesync.questionInt("");
         break;
         case 2:
             console.log("\n\nListar Todas as Camisetas");
