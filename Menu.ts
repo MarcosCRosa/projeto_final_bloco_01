@@ -1,8 +1,6 @@
 
 import readlinesync = require("readline-sync");
 import { Camiseta } from "./model/ProdutoCamiseta";
-import { Produto } from "./model/Produto";
-
 export function main(){
     let opcao:number;
     let camiseta1:Camiseta = new Camiseta(1,"Purple X",100,1,"M","Roxo",1);
