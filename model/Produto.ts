@@ -3,8 +3,8 @@ export abstract class Produto {
     private _id:number;
     private _nome:string;
     private _preco:number;
-    private _estoque:boolean;
-    constructor(id:number,nome:string,preco:number,estoque:boolean) {
+    private _estoque:number;
+    constructor(id:number,nome:string,preco:number,estoque:number) {
         this._id = id;
         this._nome=nome;
         this._preco=preco;
@@ -32,7 +32,7 @@ export abstract class Produto {
         return this._estoque;
     }
 
-    public set estoque(estoque:boolean){
+    public set estoque(estoque:number){
         this._estoque =estoque;
     }
 

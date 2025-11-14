@@ -1,3 +1,4 @@
+import { log } from "console";
 import { Produto } from "./Produto";
 
 export class Camiseta extends Produto{
@@ -6,7 +7,7 @@ export class Camiseta extends Produto{
     private _cor:string;
     private _tipo:number;
     constructor(id:number,nome:string,
-    preco:number,estoque:boolean,
+    preco:number,estoque:number,
     tamanho:string,cor:string,tipo:number){
         super(id,nome,preco,estoque);
         this._tamanho=tamanho;
@@ -47,7 +48,24 @@ export class Camiseta extends Produto{
             
             break;
 
-        }  
+        }
+        console.log("\n**********************************************");
+        console.log("              Informações da Camiseta           ");
+        console.log("\n**********************************************");
+        console.log(`ID do Produto:${this.id}`);
+        console.log(`Nome:${this.nome}`);
+        console.log(`Tipo:${tipoCamisaStrg}`);
+        console.log(`Tamanho:${this._tamanho}`);
+        console.log(`Cor:${this._cor}`);
+        console.log(`Preço:(R$)${this.preco.toFixed(2)}`);
+        console.log(`Estoque Disponivel:${(this.estoque)}`);
+        
+        
+        
+        
+        
+        
+          
     }
     
 }
