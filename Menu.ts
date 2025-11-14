@@ -3,7 +3,7 @@ import readlinesync = require("readline-sync");
 import { Camiseta } from "./model/ProdutoCamiseta";
 import { CamisetaController } from "./controller/CamisetaController";
 export function main(){
-    let opcao,preco,tipo,estoque:number;
+    let opcao,preco,tipo,estoque,id,quantidade:number;
     let tamanho,nome,cor:string;
     //let camiseta1:Camiseta = new Camiseta(1,"Purple X",100,1,"M","Roxo",1);
     let camisetas : CamisetaController = new CamisetaController();
@@ -48,19 +48,65 @@ export function main(){
             keyPress();
         break;
         case 2:
-            console.log("\n\nListar Todas as Camisetas");
+            camisetas.listar();
             keyPress();
+            
         break;
         case 3:
              console.log("\n\nListar Por (ID)");
+             console.log("Digite o ID da Camiseta:");
+             id = readlinesync.questionInt("");
+             camisetas.buscarPorId(id);
              keyPress();
              break;
         case 4:
         console.log("\n\nAtualizar Camiseta");
-            keyPress();
+        console.log("Digite o ID da Camiseta que deseja Atuaizar:");
+        id = readlinesync.questionInt("");
+        if(camisetas.buscarNoArray(id)){
+        nome = readlinesync.question("Digite o novo nome da Camiseta:");
+        preco = readlinesync.questionFloat("Digite o novo preco da Camiseta:");
+        estoque = readlinesync.questionInt("Digite o numero de Camisetas no estoque:");
+        tamanho = readlinesync.question("Digite o tamanho da Camiseta(P/M/G/GG)");
+        cor = readlinesync.question("Digite a cor da Camiseta:");
+        tipo = readlinesync.questionInt("(1) Gola Polo | (2) Gola V:");
+        
+        const camisetaAtualizada = new Camiseta(id,nome,preco,estoque,tamanho,cor,tipo);
+        camisetas.atualizar(camisetaAtualizada);
+        }else{
+            console.log(`Camiseta ID${id},não encontrada!`);
+            
+        }
+        keyPress();
         break;
         case 5:
-        console.log("\n\nComprar Camiseta");
+        console.log("\n\nComprar Camisetas");
+        
+        console.log("---------Camisetas Disponiveis Para Compra--------");
+        camisetas.listar();
+        console.log("---------------------------------------------------");
+        console.log("Digite o ID da Camiseta que deseja Comprar:");
+        id = readlinesync.questionInt("");
+        
+        let CamisetaComprada = camisetas.buscarNoArray(id);
+        if (CamisetaComprada){
+            console.log("\n------Camiseta Selecionada------");
+            CamisetaComprada.visualizar();
+            console.log("----------------------------------");
+            console.log("Digite a Quantidade que deseja Comprar");
+            quantidade = readlinesync.questionInt("");
+            try{
+            camisetas.comprar(id,quantidade);
+            } catch(eror:any){
+                console.log("Tente Novamente");
+                
+            }
+            
+            console.log("---------------------------------------");
+        } else{
+            console.log(`Camiseta com ID:${id},não foi encontrada!`);
+
+        }
             keyPress();
         break;
         
