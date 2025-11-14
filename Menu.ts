@@ -2,8 +2,6 @@
 import readlinesync = require("readline-sync");
 import { Camiseta } from "./model/ProdutoCamiseta";
 import { CamisetaController } from "./controller/CamisetaController";
-import { read } from "node:fs";
-import { log } from "node:console";
 export function main(){
     let opcao,preco,tipo,id,quantidade,estoque:number;
     let tamanho,nome,cor:string;
@@ -146,7 +144,7 @@ export function main(){
         try{
             camisetas.comprar(id,quantidade);
         } catch(error:any){
-            console.log(`\n${error}`);
+            console.log(`\n${error.message}`);
         }       
         keyPress();
         break;
