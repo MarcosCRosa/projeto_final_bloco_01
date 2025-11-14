@@ -1,4 +1,5 @@
 
+import { log } from "node:console";
 import { Camiseta } from "../model/ProdutoCamiseta";
 import { ProdutoRepository } from "../repository/ProdutoRepository";
 
@@ -83,7 +84,14 @@ export class CamisetaController implements ProdutoRepository{
     }
 
     public deletar(id:number):void{
-        
+        let camiseta = this.buscarNoArray(id);
+        if(camiseta){
+            this.listaCamisetas.splice(this.listaCamisetas.indexOf(camiseta),1);
+         console.log(`Camiseta  ID${id},removida com sucesso`);
+         
+        }else{
+            console.log('ID não encontrado');
+        }
     }
     
 }
