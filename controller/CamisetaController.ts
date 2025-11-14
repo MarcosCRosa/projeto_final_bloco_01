@@ -1,3 +1,4 @@
+import { log } from "console";
 import { Produto } from "../model/Produto";
 import { Camiseta } from "../model/ProdutoCamiseta";
 import { ProdutoRepository } from "../repository/ProdutoRepository";
@@ -22,6 +23,15 @@ class CamisetaController implements ProdutoRepository{
         }
     }
     buscarPorId(id: number): void {
+        let buscarCamisaPorId = this.buscarNoArray(id);
+
+        if(buscarCamisaPorId){
+            console.log(buscarCamisaPorId.visualizar());
+            
+        }else{
+            console.log(`A camiseta de ID:${id},não foi encontrada!`);
+            
+        }
         
     }
     atualizar(produto: Camiseta): void {
