@@ -1,4 +1,3 @@
-import { log } from "console";
 import { Produto } from "./Produto";
 
 export class Camiseta extends Produto{

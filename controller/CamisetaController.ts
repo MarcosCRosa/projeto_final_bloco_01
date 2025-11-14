@@ -81,5 +81,9 @@ export class CamisetaController implements ProdutoRepository{
     public gerarId():number{
         return this.numeroID++;
     }
+
+    public deletar(id:number):void{
+        
+    }
     
 }
