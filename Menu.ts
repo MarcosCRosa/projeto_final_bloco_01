@@ -45,24 +45,29 @@ export function main(){
             
             camisetas.adicionar(new Camiseta
             (camisetas.gerarId(),nome,preco,estoque,tamanho,cor,tipo));
+            keyPress();
         break;
         case 2:
             console.log("\n\nListar Todas as Camisetas");
-            
+            keyPress();
         break;
         case 3:
              console.log("\n\nListar Por (ID)");
+             keyPress();
              break;
         case 4:
         console.log("\n\nAtualizar Camiseta");
+            keyPress();
         break;
         case 5:
         console.log("\n\nComprar Camiseta");
+            keyPress();
         break;
         
         default:
             console.log("Opcao Invalida!\n");
-            
+            keyPress();
+            break;
      }
      
      
@@ -71,3 +76,7 @@ export function main(){
 }
 
 main();
+function keyPress():void{
+    console.log("\nPressione enter para continuar....");
+    readlinesync.prompt();    
+}
