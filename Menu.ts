@@ -153,7 +153,7 @@ export function main(){
         case 6:
         console.log("\n\nDeletar Camiseta");
         camisetas.listar();
-        id = readlinesync.questionInt("Digite o ID da Conta:")
+        id = readlinesync.questionInt("Digite o ID da Camiseta:")
         camisetas.deletar(id);
         keyPress();
         break;       
