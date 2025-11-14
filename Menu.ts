@@ -1,128 +1,148 @@
-
 import readlinesync = require("readline-sync");
 import { Camiseta } from "./model/ProdutoCamiseta";
 import { CamisetaController } from "./controller/CamisetaController";
-export function main(){
-    let opcao,preco,tipo,estoque,id,quantidade:number;
-    let tamanho,nome,cor:string;
-    //let camiseta1:Camiseta = new Camiseta(1,"Purple X",100,1,"M","Roxo",1);
-    let camisetas : CamisetaController = new CamisetaController();
-    
-    camisetas.adicionar(new Camiseta(camisetas.gerarId(),"Purple",100.00,10,"M","Roxo",1))
-    while(true){
-     console.log("*********************************************");
-     console.log("---------------------------------------------");
-     console.log("*******||      LOJA DE CAMISETAS   ||*******");
-     console.log("---------------------------------------------");
-     console.log("1-Adicionar Camiseta");
-     console.log("2-Listar Todas as Camisetas");
-     console.log("3-Listar Por (ID)");
-     console.log("4-Atualizar Camiseta");
-     console.log("5-Comprar Camiseta");
-     console.log("6-Sair");
-     console.log("\nDigite uma opcao de:(1-6)");
-     opcao = readlinesync.questionInt("");
-     if(opcao==6){
-        console.log("\nVolte sempre.....");
-        process.exit(0)
-     } 
-        switch(opcao){
-        case 1:
-            console.log("\n\nAdicionar Camiseta");
-            console.log("Digite o nome da Camiseta");
-            nome = readlinesync.question("");
-            console.log("Digite o preco da Camiseta:");
-            preco = readlinesync.questionFloat("");
-            console.log("Digite o Estoque da Camiseta:");
-            estoque = readlinesync.questionInt("");
-            console.log("Digite o Tamanho da Camiseta:");
-            tamanho = readlinesync.question("");
-            console.log("Digite a cor da Camiseta:");
-            cor = readlinesync.question("");
-            console.log("Digite o tipo da Camiseta:")
-            console.log("(1) Gola Polo |(2) Gola V");
-            tipo = readlinesync.questionInt("");
-            
-            camisetas.adicionar(new Camiseta
-            (camisetas.gerarId(),nome,preco,estoque,tamanho,cor,tipo));
-            keyPress();
-        break;
-        case 2:
-            camisetas.listar();
-            keyPress();
-            
-        break;
-        case 3:
-             console.log("\n\nListar Por (ID)");
-             console.log("Digite o ID da Camiseta:");
-             id = readlinesync.questionInt("");
-             camisetas.buscarPorId(id);
-             keyPress();
-             break;
-        case 4:
-        console.log("\n\nAtualizar Camiseta");
-        console.log("Digite o ID da Camiseta que deseja Atuaizar:");
-        id = readlinesync.questionInt("");
-        if(camisetas.buscarNoArray(id)){
-        nome = readlinesync.question("Digite o novo nome da Camiseta:");
-        preco = readlinesync.questionFloat("Digite o novo preco da Camiseta:");
-        estoque = readlinesync.questionInt("Digite o numero de Camisetas no estoque:");
-        tamanho = readlinesync.question("Digite o tamanho da Camiseta(P/M/G/GG)");
-        cor = readlinesync.question("Digite a cor da Camiseta:");
-        tipo = readlinesync.questionInt("(1) Gola Polo | (2) Gola V:");
-        
-        const camisetaAtualizada = new Camiseta(id,nome,preco,estoque,tamanho,cor,tipo);
-        camisetas.atualizar(camisetaAtualizada);
-        }else{
-            console.log(`Camiseta ID${id},não encontrada!`);
-            
-        }
-        keyPress();
-        break;
-        case 5:
-        console.log("\n\nComprar Camisetas");
-        
-        console.log("---------Camisetas Disponiveis Para Compra--------");
-        camisetas.listar();
-        console.log("---------------------------------------------------");
-        console.log("Digite o ID da Camiseta que deseja Comprar:");
-        id = readlinesync.questionInt("");
-        
-        let CamisetaComprada = camisetas.buscarNoArray(id);
-        if (CamisetaComprada){
-            console.log("\n------Camiseta Selecionada------");
-            CamisetaComprada.visualizar();
-            console.log("----------------------------------");
-            console.log("Digite a Quantidade que deseja Comprar");
-            quantidade = readlinesync.questionInt("");
-            try{
-            camisetas.comprar(id,quantidade);
-            } catch(eror:any){
-                console.log("Tente Novamente");
-                
-            }
-            
-            console.log("---------------------------------------");
-        } else{
-            console.log(`Camiseta com ID:${id},não foi encontrada!`);
 
+export function main() {
+
+    let opcao: number;
+    let camisetas = new CamisetaController();
+
+    camisetas.adicionar(new Camiseta(camisetas.gerarId(), "Purple", 100, 10, "M", "Roxo", 1));
+
+    while (true) {
+
+        console.log("*********************************************");
+        console.log("********** LOJA DE CAMISETAS ***************");
+        console.log("*********************************************");
+        console.log("1 - Adicionar Camiseta");
+        console.log("2 - Listar Camisetas");
+        console.log("3 - Buscar por ID");
+        console.log("4 - Atualizar");
+        console.log("5 - Comprar");
+        console.log("6 - Sair");
+        console.log("\nOpcão (1-6):");
+        opcao = readlinesync.questionInt("");
+
+        if (opcao === 6) {
+            console.log("Saindo...");
+            process.exit(0);
         }
-            keyPress();
-        break;
-        
-        default:
-            console.log("Opcao Invalida!\n");
-            keyPress();
-            break;
-     }
-     
-     
-     
+
+        switch (opcao) {
+
+            case 1:
+                adicionarCamiseta(camisetas);
+                break;
+
+            case 2:
+                camisetas.listar();
+                break;
+
+            case 3:
+                buscarPorId(camisetas);
+                break;
+
+            case 4:
+                atualizarCamiseta(camisetas);
+                break;
+
+            case 5:
+                comprarCamiseta(camisetas);
+                break;
+        }
+
+        keyPress();
     }
 }
 
-main();
-function keyPress():void{
-    console.log("\nPressione enter para continuar....");
-    readlinesync.prompt();    
+function adicionarCamiseta(controller: CamisetaController) {
+    let nome = lerNome();
+    let preco = lerPreco();
+    let estoque = lerEstoque();
+    let tamanho = lerTamanho();
+    let cor = lerCor();
+    let tipo = lerTipo();
+    controller.adicionar(new Camiseta(controller.gerarId(), nome, preco, estoque, tamanho, cor, tipo));
 }
+
+function buscarPorId(controller: CamisetaController) {
+    let id = readlinesync.questionInt("ID: ");
+    controller.buscarPorId(id);
+}
+
+function atualizarCamiseta(controller: CamisetaController) {
+    let id = readlinesync.questionInt("ID da camiseta: ");
+
+    if (!controller.buscarNoArray(id)) {
+        console.log("Camiseta não encontrada!");
+        return;
+    }
+
+    let nome = lerNome();
+    let preco = lerPreco();
+    let estoque = lerEstoque();
+    let tamanho = lerTamanho();
+    let cor = lerCor();
+    let tipo = lerTipo();
+
+    controller.atualizar(new Camiseta(id, nome, preco, estoque, tamanho, cor, tipo));
+}
+
+function comprarCamiseta(controller: CamisetaController) {
+    let id = readlinesync.questionInt("ID para compra: ");
+    let quantidade = readlinesync.questionInt("Quantidade: ");
+    try {
+        controller.comprar(id, quantidade);
+    } catch (e: any) {
+        console.log(e.message);
+    }
+}
+
+function lerNome() {
+    let nome = readlinesync.question("Nome: ").trim();
+    while (!isNaN(Number(nome)) || nome.length === 0)
+        nome = readlinesync.question("Nome invalido. Digite novamente: ").trim();
+    return nome;
+}
+
+function lerPreco() {
+    let preco = readlinesync.questionFloat("Preco: ");
+    while (isNaN(preco) || preco <= 0)
+        preco = readlinesync.questionFloat("Preco invalido. Digite novamente: ");
+    return preco;
+}
+
+function lerEstoque() {
+    let estoque = readlinesync.questionInt("Estoque: ");
+    while (isNaN(estoque) || estoque < 0)
+        estoque = readlinesync.questionInt("Estoque invalido. Digite novamente: ");
+    return estoque;
+}
+
+function lerTamanho() {
+    let tamanho = readlinesync.question("Tamanho (P/M/G/GG): ").toUpperCase().trim();
+    while (!["P", "M", "G", "GG"].includes(tamanho))
+        tamanho = readlinesync.question("Tamanho invalido. Digite novamente: ").toUpperCase().trim();
+    return tamanho;
+}
+
+function lerCor() {
+    let cor = readlinesync.question("Cor: ").trim();
+    while (!cor || !isNaN(Number(cor)))
+        cor = readlinesync.question("Cor invalida. Digite novamente: ").trim();
+    return cor;
+}
+
+function lerTipo() {
+    let tipo = readlinesync.questionInt("Tipo (1-Polo / 2-V): ");
+    while (![1, 2].includes(tipo))
+        tipo = readlinesync.questionInt("Escolha 1 ou 2: ");
+    return tipo;
+}
+
+function keyPress() {
+    console.log("\nPressione ENTER para continuar...");
+    readlinesync.prompt();
+}
+
+main();

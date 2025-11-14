@@ -1,85 +1,64 @@
-
 import { Camiseta } from "../model/ProdutoCamiseta";
 import { ProdutoRepository } from "../repository/ProdutoRepository";
 
-export class CamisetaController implements ProdutoRepository{
+export class CamisetaController implements ProdutoRepository {
 
-    private listaCamisetas: Array<Camiseta> = new Array<Camiseta>();
-    private numeroID:number=0;
-    adicionar(Produto: Camiseta): void {
-        this.listaCamisetas.push(Produto);
-        console.log(`Camiseta:${Produto.nome},Adicionada!`);
-        
+    private listaCamisetas: Array<Camiseta> = [];
+    private numeroID: number = 1;
+
+    adicionar(produto: Camiseta): void {
+        this.listaCamisetas.push(produto);
+        console.log(`Camiseta ${produto.nome} adicionada!`);
     }
+
     listar(): void {
-        if(this.listaCamisetas.length===0){
-            console.log("\n O carrinho esta vazio!");
+        if (this.listaCamisetas.length === 0) {
+            console.log("\nNenhuma camiseta cadastrada!");
             return;
         }
-        console.log("Lista de Camisetas Adicionadas:");
-        for(let Camiseta of this.listaCamisetas){
-            Camiseta.visualizar();
+
+        console.log("\n========== LISTA DE CAMISETAS ==========");
+        for (let camiseta of this.listaCamisetas) {
+            camiseta.visualizar();
         }
     }
+
     buscarPorId(id: number): void {
-        let buscarCamisaPorId = this.buscarNoArray(id);
+        const camiseta = this.buscarNoArray(id);
 
-        if(buscarCamisaPorId){
-            console.log(buscarCamisaPorId.visualizar());
-            
-        }else{
-            console.log(`A camiseta de ID:${id},não foi encontrada!`);
-            
-        }
-        
+        if (camiseta) camiseta.visualizar();
+        else console.log(`Camiseta ID ${id} não encontrada!`);
     }
-    atualizar(camisetaAtualizada: Camiseta): void {
-        let camiseta = this.buscarNoArray(camisetaAtualizada.id);
 
-        if(camiseta){
-            this.listaCamisetas[this.listaCamisetas.indexOf(camiseta)] = camisetaAtualizada;
-            console.log(`A camiseta:${camisetaAtualizada.nome},ID:${camisetaAtualizada.id}\nFoi Atualizada!`);
-            
+    atualizar(produto: Camiseta): void {
+        const camiseta = this.buscarNoArray(produto.id);
+
+        if (camiseta) {
+            this.listaCamisetas[this.listaCamisetas.indexOf(camiseta)] = produto;
+            console.log(`Camiseta ID ${produto.id} atualizada!`);
         } else {
-            console.log(`A Camiseta:${camisetaAtualizada.nome},Não foi encontrada`);
-            
+            console.log(`Camiseta ID ${produto.id} não encontrada!`);
         }
     }
-    //deletar
+
     comprar(id: number, quantidade: number): void {
-    try{
-        let camiseta = this.buscarNoArray(id);
+        const camiseta = this.buscarNoArray(id);
 
-        if(!camiseta){
-            throw new Error(`A camiseta com ID${id},Não foi encontrada!`);
-        }
+        if (!camiseta) throw new Error(`Camiseta ID ${id} não encontrada`);
+        if (quantidade <= 0) throw new Error(`Quantidade inválida`);
+        if (camiseta.estoque < quantidade)
+            throw new Error(`Estoque insuficiente. Estoque atual: ${camiseta.estoque}`);
 
-        if(quantidade<=0){
-            throw new Error(`A quantidade da Compra deve ser maior que 0`);
-        }
-        if(camiseta.estoque < quantidade){
-            throw new Error(`Não possuimos esta quantidade Em estoque.\nEstoque Atual:${camiseta.estoque}`);
+        camiseta.estoque -= quantidade;
 
-        }
-        //passou pelos exceptions e decrementou a quantidade no estoque;
-        camiseta.estoque -= quantidade; 
-        console.log(`Estoque Atual:${camiseta.estoque}`);
-    } catch(error:any){
-        console.log(error);
-        
-    }
+        console.log(`Compra realizada. Estoque atual: ${camiseta.estoque}`);
     }
 
-    public buscarNoArray(id:number): Camiseta|null{
-        for(let camiseta of this.listaCamisetas){
-            if(camiseta.id === id){
-                return camiseta;
-            }
-        }
-        return null;
+    public buscarNoArray(id: number): Camiseta | null {
+        return this.listaCamisetas.find(c => c.id === id) || null;
     }
-    public gerarId():number{
+
+    public gerarId(): number {
         return this.numeroID++;
     }
-    
 }
