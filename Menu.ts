@@ -21,8 +21,9 @@ export function main(){
      console.log("3-Listar Por (ID)");
      console.log("4-Atualizar Camiseta");
      console.log("5-Comprar Camiseta");
-     console.log("6-Excluir Camisa");
-     console.log("\nDigite uma opcao de:(1-6)");
+     console.log("6-Excluir Camiseta");
+     console.log("7-Sair");
+     console.log("\nDigite uma opcao de:(1-7)");
      opcao = readlinesync.questionInt("");
      if(opcao==7){
         console.log("\nVolte sempre.....");
@@ -33,14 +34,14 @@ export function main(){
             console.log("\n\nAdicionar Camiseta");
             console.log("Digite o nome da Camiseta:");
             nome = readlinesync.question("");
-            while(nome===""){
+            while(nome.trim()===""){
                 console.log("Valor invalido.");
                 console.log("Digite o nome da Camiseta:");
                 nome = readlinesync.question("");
             }
             console.log("Digite o preco da Camiseta:");
             preco = readlinesync.questionFloat("");
-            while(preco<=0 || !isNaN(NaN)){
+            while(preco<=0 || isNaN(preco)){
                 console.log("Digite um valor valido:");
                 preco = readlinesync.questionFloat("");   
             }
@@ -90,21 +91,50 @@ export function main(){
         case 4:
         console.log("\n\nAtualizar Camiseta");
         id = readlinesync.questionInt("Digite o ID da Camisa:");
-        if(id in camisetas){
-            console.log("Digite o nome da Camiseta");
+        let camisetaExiste = camisetas.buscarNoArray(id);
+         if(camisetaExiste){
+           console.log("Digite um novo nome para a camiseta:");
             nome = readlinesync.question("");
-            console.log("Digite o preco da Camiseta:");
+            while(nome.trim()===""){
+                console.log("Valor invalido.");
+                console.log("Digite o nome da Camiseta:");
+                nome = readlinesync.question("");
+            }
+            console.log("Digite um novo preco para a camiseta:");
             preco = readlinesync.questionFloat("");
-            console.log("Digite o Estoque da Camiseta:");
+            while(preco<=0 || isNaN(preco)){
+                console.log("Digite um valor valido:");
+                preco = readlinesync.questionFloat("");   
+            }
+            console.log("Digite um novo estoque para a camiseta:");
             estoque = readlinesync.questionInt("");
-            console.log("Digite o Tamanho da Camiseta:");
-            tamanho = readlinesync.question("");
-            console.log("Digite a cor da Camiseta:");
+            while(estoque<=0){
+                console.log("Digite um valor valido:");
+                estoque = readlinesync.questionInt("");
+            }
+            console.log("Digite um novo tamanho para camiseta:");
+            tamanho = readlinesync.question("").toUpperCase();
+            while(!["P","M","G","GG"].includes(tamanho)){
+                console.log("Digite um tamanho valido(P,M,G,GG):");
+                tamanho = readlinesync.question("").toUpperCase();
+            }
+            console.log("Digite Uma nova cor para a camiseta");
             cor = readlinesync.question("");
-            console.log("Digite o tipo da Camiseta:")
+            while(cor.trim()===""){
+            console.log("Digite uma cor valida:");
+            cor=readlinesync.question("");
+            }
+            console.log("Digite o Novo tipo da Camiseta:")
             console.log("(1) Gola Polo |(2) Gola V");
             tipo = readlinesync.questionInt("");
+            while(tipo!=1 && tipo!=2){
+               console.log("Digite 1 ou 2 ");
+               tipo = readlinesync.questionInt("");
+            }
           camisetas.atualizar(new Camiseta(id,nome,preco,estoque,tamanho,cor,tipo));
+        }else{
+            console.log("ID invalido.");
+            
         }
             keyPress();
         break;
@@ -115,14 +145,18 @@ export function main(){
         quantidade = readlinesync.questionInt("Digite a quantidade: ");
         try{
             camisetas.comprar(id,quantidade);
-        } catch(error){
-            console.log(error);
+        } catch(error:any){
+            console.log(`\n${error}`);
         }       
         keyPress();
         break;
         case 6:
         console.log("\n\nDeletar Camiseta");
-        
+        camisetas.listar();
+        id = readlinesync.questionInt("Digite o ID da Conta:")
+        camisetas.deletar(id);
+        keyPress();
+        break;       
         
         default:
             console.log("Opcao Invalida!\n");
