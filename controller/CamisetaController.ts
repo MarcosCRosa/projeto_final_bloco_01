@@ -22,13 +22,22 @@ class CamisetaController implements ProdutoRepository{
         }
     }
     buscarPorId(id: number): void {
-        throw new Error("Method not implemented.");
+        
     }
     atualizar(produto: Camiseta): void {
         throw new Error("Method not implemented.");
     }
     comprar(id: number, quantidade: number): void {
         throw new Error("Method not implemented.");
+    }
+
+    public buscarNoArray(id:number): Camiseta|null{
+        for(let camiseta of this.listaCamisetas){
+            if(camiseta.id === camiseta.id){
+                return camiseta;
+            }
+        }
+        return null;
     }
     
 }
