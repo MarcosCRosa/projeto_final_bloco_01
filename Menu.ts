@@ -1,10 +1,14 @@
 
 import readlinesync = require("readline-sync");
 import { Camiseta } from "./model/ProdutoCamiseta";
+import { CamisetaController } from "./controller/CamisetaController";
 export function main(){
     let opcao,preco,tipo,estoque:number;
     let tamanho,nome,cor:string;
-    let camiseta1:Camiseta = new Camiseta(1,"Purple X",100,1,"M","Roxo",1);
+    //let camiseta1:Camiseta = new Camiseta(1,"Purple X",100,1,"M","Roxo",1);
+    let camisetas : CamisetaController = new CamisetaController();
+    
+    camisetas.adicionar(new Camiseta(camisetas.gerarId(),"Purple",100.00,10,"M","Roxo",1))
     while(true){
      console.log("*********************************************");
      console.log("---------------------------------------------");
@@ -35,12 +39,16 @@ export function main(){
             tamanho = readlinesync.question("");
             console.log("Digite a cor da Camiseta:");
             cor = readlinesync.question("");
-            console.log("Digite o tipo da Camiseta:(1)-Gola Polo-||-(2)-Gola V");
+            console.log("Digite o tipo da Camiseta:")
+            console.log("(1) Gola Polo |(2) Gola V");
             tipo = readlinesync.questionInt("");
+            
+            camisetas.adicionar(new Camiseta
+            (camisetas.gerarId(),nome,preco,estoque,tamanho,cor,tipo));
         break;
         case 2:
             console.log("\n\nListar Todas as Camisetas");
-            camiseta1.visualizar();
+            
         break;
         case 3:
              console.log("\n\nListar Por (ID)");
