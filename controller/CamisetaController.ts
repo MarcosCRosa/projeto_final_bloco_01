@@ -39,5 +39,8 @@ class CamisetaController implements ProdutoRepository{
         }
         return null;
     }
+    public gerarId():number{
+        return this.numeroID++;
+    }
     
 }
