@@ -13,8 +13,41 @@ export class Camiseta extends Produto{
         this._cor=cor;
         this._tipo=tipo;
     }
+    public get tamanho(){
+        return this._tamanho;
+    }
+    public set tamanho(tamanho:string){
+        this._tamanho=tamanho;
+    }
+    public get cor(){
+        return this._cor;
+    }
+    public set cor(cor:string){
+        this._cor=cor;
+    }
+    public get tipo(){
+        return this._tipo;
+    }
+    public set tipo(tipo:number){
+        this._tipo=tipo
+    }
     public visualizar(): void {
-        throw new Error("Method not implemented.");
+        let tipoCamisaStrg: string = "";
+        switch(this._tipo){
+            case 1:
+                tipoCamisaStrg = "Gola Polo";
+            break;
+
+            case 2:
+                tipoCamisaStrg = "Gola V";
+            break;
+
+            default:
+                tipoCamisaStrg = "Tipo de Camisa incorreto:";
+            
+            break;
+
+        }  
     }
     
 }
