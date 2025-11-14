@@ -1,9 +1,8 @@
-import { log } from "console";
-import { Produto } from "../model/Produto";
+
 import { Camiseta } from "../model/ProdutoCamiseta";
 import { ProdutoRepository } from "../repository/ProdutoRepository";
 
-class CamisetaController implements ProdutoRepository{
+export class CamisetaController implements ProdutoRepository{
 
     private listaCamisetas: Array<Camiseta> = new Array<Camiseta>();
     private numeroID:number=0;
@@ -34,16 +33,46 @@ class CamisetaController implements ProdutoRepository{
         }
         
     }
-    atualizar(produto: Camiseta): void {
-        throw new Error("Method not implemented.");
+    atualizar(camisetaAtualizada: Camiseta): void {
+        let camiseta = this.buscarNoArray(camisetaAtualizada.id);
+
+        if(camiseta){
+            this.listaCamisetas[this.listaCamisetas.indexOf(camiseta)] = camisetaAtualizada;
+            console.log(`A camiseta:${camisetaAtualizada.nome},ID:${camisetaAtualizada.id}\nFoi Atualizada!`);
+            
+        } else {
+            console.log(`A Camiseta:${camisetaAtualizada.nome},Não foi encontrada`);
+            
+        }
     }
+    //deletar
     comprar(id: number, quantidade: number): void {
-        throw new Error("Method not implemented.");
+    try{
+        let camiseta = this.buscarNoArray(id);
+
+        if(!camiseta){
+            throw new Error(`A camiseta com ID${id},Não foi encontrada!`);
+        }
+
+        if(quantidade<=0){
+            throw new Error(`A quantidade da Compra deve ser maior que 0`);
+        }
+        if(camiseta.estoque < quantidade){
+            throw new Error(`Não possuimos esta quantidade Em estoque.\nEstoque Atual:${camiseta.estoque}`);
+
+        }
+        //passou pelos exceptions e decrementou a quantidade no estoque;
+        camiseta.estoque -= quantidade; 
+        console.log(`Estoque Atual:${camiseta.estoque}`);
+    } catch(error:any){
+        console.log(error);
+        
+    }
     }
 
     public buscarNoArray(id:number): Camiseta|null{
         for(let camiseta of this.listaCamisetas){
-            if(camiseta.id === camiseta.id){
+            if(camiseta.id === id){
                 return camiseta;
             }
         }
