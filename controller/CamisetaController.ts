@@ -6,7 +6,7 @@ import { ProdutoRepository } from "../repository/ProdutoRepository";
 export class CamisetaController implements ProdutoRepository{
 
     private listaCamisetas: Array<Camiseta> = new Array<Camiseta>();
-    private numeroID:number=0;
+    private numeroID:number=1;
     adicionar(Produto: Camiseta): void {
         this.listaCamisetas.push(Produto);
         console.log(`Camiseta:${Produto.nome},Adicionada!`);
